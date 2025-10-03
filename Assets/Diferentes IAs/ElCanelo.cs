@@ -15,7 +15,7 @@ public class ElCanelo : MonoBehaviour
     {
         if(Mouse.current.rightButton.wasPressedThisFrame)
         {
-            bob.GetHit();
+           // bob.GetHit();
         }
     }
 }

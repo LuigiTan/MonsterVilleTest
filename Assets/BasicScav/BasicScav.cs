@@ -31,6 +31,10 @@ public class BasicScav : MonoBehaviour
 
     public float criticalHealthLimit = 0.3f;
 
+    [Header("Loot Drops")]
+    public GameObject SeedDrop;
+
+    [Header("Looting Config")]
     //Variables para loot
     public float lootDetectionRadius = 5f; // Rango de deteccion. Tal vez lo tenga que bajar
     private LootItem targetLoot; // loot a la que va a ir
@@ -77,6 +81,7 @@ public class BasicScav : MonoBehaviour
         {
             // Una esfera con el radio de deteccion
             Collider[] hits = Physics.OverlapSphere(transform.position, lootDetectionRadius);
+            
 
             LootItem bestLoot = null;
             int bestValue = -1;
@@ -156,7 +161,11 @@ public class BasicScav : MonoBehaviour
                 break;
         }
     }
-
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, lootDetectionRadius);
+    }
     private bool PlayerInFOV()
     {
         Vector3 dirToPlayer = (player.position - transform.position).normalized;
@@ -183,10 +192,20 @@ public class BasicScav : MonoBehaviour
         return false;
     }
 
-    public void GetHit()
+    public void GetHit(float damageRecieved)
     {
-        health -= 9;
+        health -= damageRecieved;
         Debug.Log("Was Hit! Only have " +  health + " hp left.");
+        if(health <= 0)
+        {
+            ScavDeath();
+        }
+    }
+    public void ScavDeath()
+    {
+        Instantiate(SeedDrop, transform.position, transform.rotation);
+
+        Destroy(gameObject);
     }
 
     private void Flee()
