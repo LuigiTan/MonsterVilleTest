@@ -117,6 +117,24 @@ public partial class @MaiActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Mouse"",
+                    ""type"": ""Value"",
+                    ""id"": ""d4eae023-5b76-41e5-bdf1-8e9b03459158"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Shockwave"",
+                    ""type"": ""Button"",
+                    ""id"": ""191aca3b-9392-4706-8440-fc9ae121449b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -196,6 +214,28 @@ public partial class @MaiActions: IInputActionCollection2, IDisposable
                     ""action"": ""Harvest"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""76c575a6-b0df-4ad9-8f75-9c76bacdb508"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Mouse"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f84b6ca5-6eed-4dba-98fb-c47a9736dab5"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shockwave"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -207,6 +247,8 @@ public partial class @MaiActions: IInputActionCollection2, IDisposable
         m_Gameplay_Move = m_Gameplay.FindAction("Move", throwIfNotFound: true);
         m_Gameplay_Plant = m_Gameplay.FindAction("Plant", throwIfNotFound: true);
         m_Gameplay_Harvest = m_Gameplay.FindAction("Harvest", throwIfNotFound: true);
+        m_Gameplay_Mouse = m_Gameplay.FindAction("Mouse", throwIfNotFound: true);
+        m_Gameplay_Shockwave = m_Gameplay.FindAction("Shockwave", throwIfNotFound: true);
     }
 
     ~@MaiActions()
@@ -290,6 +332,8 @@ public partial class @MaiActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Move;
     private readonly InputAction m_Gameplay_Plant;
     private readonly InputAction m_Gameplay_Harvest;
+    private readonly InputAction m_Gameplay_Mouse;
+    private readonly InputAction m_Gameplay_Shockwave;
     /// <summary>
     /// Provides access to input actions defined in input action map "Gameplay".
     /// </summary>
@@ -313,6 +357,14 @@ public partial class @MaiActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Gameplay/Harvest".
         /// </summary>
         public InputAction @Harvest => m_Wrapper.m_Gameplay_Harvest;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/Mouse".
+        /// </summary>
+        public InputAction @Mouse => m_Wrapper.m_Gameplay_Mouse;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/Shockwave".
+        /// </summary>
+        public InputAction @Shockwave => m_Wrapper.m_Gameplay_Shockwave;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -348,6 +400,12 @@ public partial class @MaiActions: IInputActionCollection2, IDisposable
             @Harvest.started += instance.OnHarvest;
             @Harvest.performed += instance.OnHarvest;
             @Harvest.canceled += instance.OnHarvest;
+            @Mouse.started += instance.OnMouse;
+            @Mouse.performed += instance.OnMouse;
+            @Mouse.canceled += instance.OnMouse;
+            @Shockwave.started += instance.OnShockwave;
+            @Shockwave.performed += instance.OnShockwave;
+            @Shockwave.canceled += instance.OnShockwave;
         }
 
         /// <summary>
@@ -368,6 +426,12 @@ public partial class @MaiActions: IInputActionCollection2, IDisposable
             @Harvest.started -= instance.OnHarvest;
             @Harvest.performed -= instance.OnHarvest;
             @Harvest.canceled -= instance.OnHarvest;
+            @Mouse.started -= instance.OnMouse;
+            @Mouse.performed -= instance.OnMouse;
+            @Mouse.canceled -= instance.OnMouse;
+            @Shockwave.started -= instance.OnShockwave;
+            @Shockwave.performed -= instance.OnShockwave;
+            @Shockwave.canceled -= instance.OnShockwave;
         }
 
         /// <summary>
@@ -429,5 +493,19 @@ public partial class @MaiActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnHarvest(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Mouse" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnMouse(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Shockwave" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnShockwave(InputAction.CallbackContext context);
     }
 }

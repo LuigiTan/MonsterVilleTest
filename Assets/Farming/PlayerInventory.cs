@@ -9,7 +9,7 @@ public class PlayerInventory : MonoBehaviour
     ///private MaiActions actions; //Fucking hate action maps
     private SoilPlot currentPlot;// Referencia al plot en el que estamos parados
 
-
+    private SeedManager seedManager;
   
 
     // ---------------- INVENTARIO ----------------
@@ -52,12 +52,31 @@ public class PlayerInventory : MonoBehaviour
     public void OnHarvest(InputValue value)
     {
         Debug.Log("Se presiono Q");
+        Debug.Log(value.ToString());
         if (!value.isPressed) return;
 
         if (currentPlot != null)
             currentPlot.TryHarvest(this);
     }
 
+
+    //-------------------OLD----------------------------
+    /*
+    public void OnPlant(InputAction.CallbackContext context) 
+    { 
+        if (context.performed && currentPlot != null) 
+        { 
+            currentPlot.TryPlant(this); 
+        } 
+    }
+    public void OnHarvest(InputAction.CallbackContext context)
+    {
+        if (context.performed && currentPlot != null)
+        {
+            currentPlot.TryHarvest(this);
+        }
+    }
+    */
     // ---------------- DETECCIÓN DE TIERRA ----------------
 
     private void OnTriggerEnter(Collider other)
@@ -65,6 +84,14 @@ public class PlayerInventory : MonoBehaviour
         if (other.CompareTag("Soil"))
         {
             currentPlot = other.GetComponent<SoilPlot>();
+        }
+        else if (other.CompareTag("Seed"))
+        {
+            seedManager = other.GetComponent<SeedManager>();
+
+            seeds = seeds + seedManager.SeedAmount;
+
+            seedManager.SeedPickedUp();
         }
     }
 
